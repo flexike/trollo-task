@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import TaskCard from "./taskCard";
 
 export default function GridList(props) {
+  const [empty, setEmpty] = useState(true);
   return (
     <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
       <div className="flex flex-row px-2">
@@ -10,9 +12,14 @@ export default function GridList(props) {
           <AiOutlinePlus />
         </div>
       </div>
-      <div className="bg-gray-200 m-2 p-2 rounded-md border-b-2 border-pink-300">
-        123
-      </div>
+      {empty ? (
+        <TaskCard
+          title="Task#2 Killing monsters like Gerald from Rivia in his early twenties"
+          descr="Do trello table, kill bad monsters with nobrains. Let good monsters with brains live."
+        />
+      ) : (
+        <div className="m-2 p-2 rounded-sm text-xl bg-slate-200"></div>
+      )}
     </div>
   );
 }
