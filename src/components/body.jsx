@@ -1,6 +1,10 @@
 import React from "react";
 import Header from "./header";
 import GridList from "./grid-list";
+import ModalCreateTable from "./modals/modalCreateTable";
+import ModalCreateTask from "./modals/modalCreateTask";
+import ModalDeleteTable from "./modals/modalDeleteTable";
+import ModalDeleteTask from "./modals/modalDeleteTask";
 
 export default function Body() {
   return (
@@ -12,6 +16,10 @@ export default function Body() {
           <GridList title="Doing 🛠" />
           <GridList title="Done ✔" />
         </div>
+        {/* <ModalCreateTable /> */}
+        {/* <ModalCreateTask /> */}
+        {/* <ModalDeleteTable /> */}
+        {/* <ModalDeleteTask /> */}
       </main>
     </div>
   );
