@@ -2,31 +2,34 @@ import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { offCreateTask } from "../../store/reducers/showModal";
+import { up } from "../../store/reducers/pageUpdate";
+import { createTask } from "../../store/reducers/taskReducer";
 import {
-  saveTitle,
-  saveDescription,
-  saveAuthor,
+  setTaskTitle,
+  setTaskDescr,
+  setTaskAuthor,
 } from "../../store/reducers/taskReducer";
 
-export default function ModalCreateTask() {
+export default function ModalCreateTask(props) {
   const dispatch = useDispatch();
   const [blockSubmit, setBlockSubmit] = useState(false);
-  const fTitle = useSelector((state) => state.taskCreator.title);
-  const fDesc = useSelector((state) => state.taskCreator.description);
-  const fAuth = useSelector((state) => state.taskCreator.author);
+  const title = useSelector((state) => state.taskCreator.title);
+  const description = useSelector((state) => state.taskCreator.description);
+  const author = useSelector((state) => state.taskCreator.author);
+  const tableId = useSelector((state) => state.taskCreator.tableId);
 
   const handleTitle = (e) => {
-    dispatch(saveTitle(e.target.value));
+    dispatch(setTaskTitle(e.target.value));
   };
   const handleDescr = (e) => {
-    dispatch(saveDescription(e.target.value));
+    dispatch(setTaskDescr(e.target.value));
   };
   const handleAuth = (e) => {
-    dispatch(saveAuthor(e.target.value));
+    dispatch(setTaskAuthor(e.target.value));
   };
 
   const blocked = () => {
-    if (fTitle === "" || fDesc === "" || fAuth === "") {
+    if (title === "" || description === "" || author === "") {
       setBlockSubmit(false);
     } else {
       setBlockSubmit(true);
@@ -35,7 +38,13 @@ export default function ModalCreateTask() {
 
   useEffect(() => {
     blocked();
-  }, [fTitle, fDesc, fAuth]);
+  }, [title, description, author]);
+
+  const handleCreateTask = async () => {
+    await dispatch(createTask());
+    await dispatch(up());
+    await dispatch(offCreateTask());
+  };
 
   return (
     <div className="h-screen flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 bg-black/75 z-10">
@@ -74,7 +83,7 @@ export default function ModalCreateTask() {
           {blockSubmit ? (
             <button
               className="bg-green-500 h-12 w-3/5 rounded-xl border-b-4 text-white active:bg-green-700"
-              type="submit"
+              onClick={handleCreateTask}
             >
               Publish
             </button>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { offCreateTable } from "../../store/reducers/showModal";
-import { saveTitle } from "../../store/reducers/tableReducer";
+import { saveTitle, deleteTitle } from "../../store/reducers/tableReducer";
+import { selectTaskTable } from "../../store/reducers/taskReducer";
 import { up } from "../../store/reducers/pageUpdate";
 import axios from "axios";
 
@@ -23,7 +24,7 @@ export default function ModalCreateTable() {
     const createNewTable = await axios
       .post("http://localhost:3001/create/table", { title: fTitle })
       .catch((err) => console.log(err));
-    console.log(createNewTable);
+    dispatch(deleteTitle());
     dispatch(up());
     dispatch(offCreateTable());
   };

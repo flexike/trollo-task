@@ -6,6 +6,7 @@ import tableReducer from "./reducers/tableReducer";
 import getTables from "./reducers/getTables";
 import pageUpdate from "./reducers/pageUpdate";
 import deleteTables from "./reducers/deleteTables";
+import deleteTask from "./reducers/deleteTask";
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     getAll: getTables,
     updater: pageUpdate,
     deleteTable: deleteTables,
+    deleteTask: deleteTask,
   },
 });

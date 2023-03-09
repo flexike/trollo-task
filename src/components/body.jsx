@@ -41,9 +41,10 @@ export default function Body() {
           {noData.map((dataTable) => {
             return (
               <GridList
-                title={dataTable.title}
                 key={dataTable.id}
+                title={dataTable.title}
                 tableId={dataTable.id}
+                tasks={dataTable.tasks}
               />
             );
           })}

@@ -9,8 +9,11 @@ export const tableSlice = createSlice({
     saveTitle: (state, action) => {
       state.title = action.payload;
     },
+    deleteTitle: (state, action) => {
+      state.title = "";
+    },
   },
 });
 
-export const { saveTitle } = tableSlice.actions;
+export const { saveTitle, deleteTitle } = tableSlice.actions;
 export default tableSlice.reducer;

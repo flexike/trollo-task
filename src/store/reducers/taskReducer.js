@@ -1,24 +1,74 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const taskSlice = createSlice({
-  name: "task",
+export const createTaskSlice = createSlice({
+  name: "createTask",
   initialState: {
+    isLoading: false,
+    erorr: null,
+    tableId: null,
     title: "",
     description: "",
     author: "",
   },
   reducers: {
-    saveTitle: (state, action) => {
+    selectTaskTable: (state, action) => {
+      state.tableId = action.payload;
+    },
+    setTaskTitle: (state, action) => {
       state.title = action.payload;
     },
-    saveDescription: (state, action) => {
+    setTaskDescr: (state, action) => {
       state.description = action.payload;
     },
-    saveAuthor: (state, action) => {
+    setTaskAuthor: (state, action) => {
       state.author = action.payload;
+    },
+    createTaskStart: (state) => {
+      state.isLoading = true;
+    },
+    createTaskSuccess: (state) => {
+      state.id = null;
+      state.title = "";
+      state.description = "";
+      state.author = "";
+      state.isLoading = false;
+      state.error = null;
+    },
+    createTaskFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
 
-export const { saveTitle, saveDescription, saveAuthor } = taskSlice.actions;
-export default taskSlice.reducer;
+export const {
+  setTaskTitle,
+  setTaskDescr,
+  setTaskAuthor,
+  selectTaskTable,
+  createTaskStart,
+  createTaskSuccess,
+  createTaskFailure,
+} = createTaskSlice.actions;
+
+export const createTask = () => async (dispatch, getState) => {
+  const { tableId, title, description, author } = getState().taskCreator;
+  if (!tableId || !title || !description || !author) {
+    return console.log("");
+  }
+  try {
+    dispatch(createTaskStart());
+    await axios.post("http://localhost:3001/create/task", {
+      title,
+      description,
+      author,
+      tableId,
+    });
+    dispatch(createTaskSuccess());
+  } catch (error) {
+    dispatch(createTaskFailure(error.message));
+  }
+};
+
+export default createTaskSlice.reducer;

@@ -15,7 +15,7 @@ app.get("/", async (req, res) => {
       tasks: true,
     },
   });
-  res.status("200").json(displayAll);
+  res.status(200).json(displayAll);
   console.log(displayAll);
 });
 
@@ -26,26 +26,27 @@ app.post("/create/table", async (req, res) => {
       title: title,
     },
   });
-  res.status("200").redirect("/");
+  res.status(200).redirect("/");
   console.log(newTable);
 });
 
-app.get("/create/task", async (req, res) => {
+app.post("/create/task", async (req, res) => {
+  const { title, description, author, tableId } = req.body;
   const newTask = await prisma.tasks.create({
     data: {
-      title: "task#1",
-      description: "Make cool trollo board",
-      author: "flexike",
-      taskTableId: 3,
+      title: title,
+      description: description,
+      author: author,
+      taskTableId: parseInt(tableId),
     },
   });
-
-  res.status("200").json(newTask);
+  console.log(req.body.taskTableId);
+  res.status(200).json(newTask);
 });
 
 app.delete("/delete/table", async (req, res) => {
   const { id } = req.body;
-  const deleteTable = await prisma.taskTable.delete({
+  const deletedTable = await prisma.taskTable.delete({
     where: {
       id: id,
     },
@@ -53,16 +54,17 @@ app.delete("/delete/table", async (req, res) => {
       tasks: true,
     },
   });
-  res.status("200").redirect("/");
+  res.status(200).json(deletedTable);
 });
 
-app.get("/delete/task", async (req, res) => {
-  const deleteTask = await prisma.tasks.delete({
+app.delete("/delete/task", async (req, res) => {
+  const { id } = req.body;
+  const deletedTask = await prisma.tasks.delete({
     where: {
-      id: 5,
+      id: id,
     },
   });
-  res.status("200").json(deleteTask);
+  res.status(200).json(deletedTask);
 });
 
 app.listen(3001, () => {
