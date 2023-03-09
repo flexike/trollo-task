@@ -3,35 +3,33 @@ import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { offCreateTask } from "../../store/reducers/showModal";
 import { up } from "../../store/reducers/pageUpdate";
-import axios from "axios";
+import { createTask } from "../../store/reducers/taskReducer";
 import {
-  saveTitle,
-  saveDescription,
-  saveAuthor,
-  saveId,
+  setTaskTitle,
+  setTaskDescr,
+  setTaskAuthor,
 } from "../../store/reducers/taskReducer";
-import { selectTable } from "../../store/reducers/deleteTables";
 
 export default function ModalCreateTask(props) {
   const dispatch = useDispatch();
   const [blockSubmit, setBlockSubmit] = useState(false);
-  const fTitle = useSelector((state) => state.taskCreator.title);
-  const fDesc = useSelector((state) => state.taskCreator.description);
-  const fAuth = useSelector((state) => state.taskCreator.author);
-  const fId = 1;
+  const title = useSelector((state) => state.taskCreator.title);
+  const description = useSelector((state) => state.taskCreator.description);
+  const author = useSelector((state) => state.taskCreator.author);
+  const tableId = useSelector((state) => state.taskCreator.tableId);
 
   const handleTitle = (e) => {
-    dispatch(saveTitle(e.target.value));
+    dispatch(setTaskTitle(e.target.value));
   };
   const handleDescr = (e) => {
-    dispatch(saveDescription(e.target.value));
+    dispatch(setTaskDescr(e.target.value));
   };
   const handleAuth = (e) => {
-    dispatch(saveAuthor(e.target.value));
+    dispatch(setTaskAuthor(e.target.value));
   };
 
   const blocked = () => {
-    if (fTitle === "" || fDesc === "" || fAuth === "") {
+    if (title === "" || description === "" || author === "") {
       setBlockSubmit(false);
     } else {
       setBlockSubmit(true);
@@ -40,19 +38,12 @@ export default function ModalCreateTask(props) {
 
   useEffect(() => {
     blocked();
-  }, [fTitle, fDesc, fAuth]);
+  }, [title, description, author]);
 
   const handleCreateTask = async () => {
-    const createNewTask = await axios
-      .post("http://localhost:3001/create/task", {
-        title: fTitle,
-        description: fDesc,
-        author: fAuth,
-        taskTableId: fId,
-      })
-      .catch((err) => console.log(err));
-    dispatch(up());
-    dispatch(offCreateTask());
+    await dispatch(createTask());
+    await dispatch(up());
+    await dispatch(offCreateTask());
   };
 
   return (
@@ -65,7 +56,7 @@ export default function ModalCreateTask(props) {
           </div>
         </div>
         <div className="px-4 flex flex-col">
-          <p className="text-lg my-2">Task title</p>
+          <p className="text-lg my-2">Task title {tableId}</p>
           <input
             type="text"
             className="w-full bg-[#f2f2f2] rounded-md p-2 border-b-4 focus:outline-none"

@@ -37,7 +37,7 @@ export const {
 export const deleteTable = () => async (dispatch, getState) => {
   const { id } = getState().deleteTable;
   if (!id) {
-    return; // If there's no id in the state, don't attempt to delete anything
+    return;
   }
   try {
     dispatch(deleteTableStart());

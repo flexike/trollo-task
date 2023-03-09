@@ -30,7 +30,7 @@ app.post("/create/table", async (req, res) => {
   console.log(newTable);
 });
 
-app.get("/create/task", async (req, res) => {
+app.post("/create/task", async (req, res) => {
   const { title, description, author, taskTableId } = req.body;
   const newTask = await prisma.tasks.create({
     data: {
