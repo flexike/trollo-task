@@ -19,8 +19,8 @@ export default function ModalDeleteTask() {
         </div>
         <div className="mt-4 flex justify-center items-end h-1/3 gap-5">
           <button
-            className="bg-green-500 h-12 w-2/5 rounded-xl border-b-4 text-white active:bg-green-700"
-            type="submit"
+            className="bg-green-500 h-12 w-2/5 rounded-xl border-b-4 text-white hover:bg-green-600 active:bg-green-900"
+            onClick={() => dispatch(offDeleteTask())}
           >
             Cancel
           </button>
