@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./header";
 import GridList from "./grid-list";
 import TableCreator from "./tablecreator";
@@ -7,8 +7,11 @@ import ModalCreateTask from "./modals/modalCreateTask";
 import ModalDeleteTable from "./modals/modalDeleteTable";
 import ModalDeleteTask from "./modals/modalDeleteTask";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../store/reducers/getTables";
 
 export default function Body() {
+  const dispatch = useDispatch();
+  const pageUpdaterValue = useSelector((state) => state.updater.update);
   const vCreateTask = useSelector(
     (state) => state.showModal.mCreateTaskVisability
   );
@@ -21,14 +24,30 @@ export default function Body() {
   const vDeleteTask = useSelector(
     (state) => state.showModal.mDeleteTaskVisability
   );
+
+  const noData = useSelector((state) => state.getAll.all);
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [pageUpdaterValue]);
+
+  if (!noData) return "loading";
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 h-full p-4 bg-gradient-to-r from-violet-500 to-fuchsia-500">
         <div className="md:grid md:grid-cols-3 md:gap-10 md:px-10 md:pt-4">
-          <GridList title="To do 📝" />
-          <GridList title="Doing 🛠" />
-          <GridList title="Done ✔" />
+          {noData.map((dataTable) => {
+            return (
+              <GridList
+                title={dataTable.title}
+                key={dataTable.id}
+                tableId={dataTable.id}
+              />
+            );
+          })}
+
           <TableCreator />
         </div>
 
