@@ -7,8 +7,10 @@ import { onCreateTask, onDeleteTable } from "../store/reducers/showModal";
 import { selectTable } from "../store/reducers/deleteTables";
 import { fetchData } from "../store/reducers/getTables";
 import { selectTaskTable } from "../store/reducers/taskReducer";
+import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 
 export default function GridList(props) {
+  const [isDescending, setIsDescending] = useState(false);
   const tableId = props.tableId;
   const tasks = props.tasks;
 
@@ -29,6 +31,8 @@ export default function GridList(props) {
     await dispatch(onCreateTask());
   };
 
+  console.log(tasks, "test");
+
   return (
     <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
       <div className="flex flex-row px-2">
@@ -36,7 +40,22 @@ export default function GridList(props) {
         <div className="flex items-center justify-center w-8 h-8 hover:bg-pink-300 hover:rounded-full absolute right-2 hover:transition-all hover:ease-in hover:duration-250">
           <AiOutlinePlus onClick={handleCreateTask} />
         </div>
-        <div className="flex items-center justify-center w-8 h-8 hover:bg-red-400 hover:rounded-full absolute top-2 right-10 hover:transition-all hover:ease-in hover:duration-250">
+        <div className="flex items-center justify-center w-8 h-8 hover:bg-blue-300 hover:rounded-full absolute top-2 right-11 hover:transition-all hover:ease-in hover:duration-250">
+          {isDescending ? (
+            <TiArrowSortedDown
+              onClick={() => {
+                setIsDescending(true);
+              }}
+            />
+          ) : (
+            <TiArrowSortedUp
+              onClick={() => {
+                setIsDescending(false);
+              }}
+            />
+          )}
+        </div>
+        <div className="flex items-center justify-center w-8 h-8 hover:bg-red-400 hover:rounded-full absolute top-2 right-20 hover:transition-all hover:ease-in hover:duration-250">
           <BsTrash onClick={handleSaveId} />
         </div>
       </div>
