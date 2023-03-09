@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./header";
 import GridList from "./grid-list";
+import TableCreator from "./tablecreator";
 import ModalCreateTable from "./modals/modalCreateTable";
 import ModalCreateTask from "./modals/modalCreateTask";
 import ModalDeleteTable from "./modals/modalDeleteTable";
@@ -28,6 +29,7 @@ export default function Body() {
           <GridList title="To do 📝" />
           <GridList title="Doing 🛠" />
           <GridList title="Done ✔" />
+          <TableCreator />
         </div>
 
         {vCreateTask ? <ModalCreateTask /> : null}

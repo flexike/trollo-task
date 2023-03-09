@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 export const modalSlice = createSlice({
   name: "showModal",
   initialState: {
-    visible: false,
     mCreateTaskVisability: false,
     mCreateTableVisability: false,
     mDeleteTaskVisability: false,

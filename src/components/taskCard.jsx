@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
-// import { AiOutlineEdit } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { onDeleteTask } from "../store/reducers/showModal";
 
@@ -19,12 +18,9 @@ export default function TaskCard(props) {
           <div className="absolute right-2 bottom-0">Posted: 5 minutes ago</div>
         </div>
       </div>
-      <div className="flex items-center justify-center w-8 h-8 hover:bg-red-400 hover:rounded-full absolute top-4 right-4 hover:transition-all hover:ease-in hover:duration-250">
+      <div className="flex items-center justify-center w-8 h-8 hover:bg-red-400 hover:rounded-full absolute top-2 right-2 hover:transition-all hover:ease-in hover:duration-250">
         <BsTrash onClick={() => dispatch(onDeleteTask())} />
       </div>
-      {/* <div className="absolute top-10 right-4">
-        <AiOutlineEdit />
-      </div> */}
     </div>
   );
 }
