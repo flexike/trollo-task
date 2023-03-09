@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import configureStore from "../store.js";
 
 export const createTaskSlice = createSlice({
   name: "createTask",
@@ -54,7 +52,7 @@ export const {
 
 export const createTask = () => async (dispatch, getState) => {
   const tableId = await getState().createTask;
-  const title = await configureStore.getState();
+  const title = await getState().createTask;
   const description = await getState().createTask;
   const author = await getState().createTask;
   console.log(tableId, title, description, author);
