@@ -25,7 +25,7 @@ export default function ModalDeleteTable() {
           </div>
         </div>
         <div className="h-1/3 px-4 my-4 flex flex-col items-center justify-center">
-          <p className="text-lg my-4 text-4xl block-inline">Are you sure?</p>
+          <p className="my-4 text-4xl block-inline">Are you sure?</p>
         </div>
         <div className="mt-4 flex justify-center items-end h-1/3 gap-5">
           <button

@@ -23,7 +23,6 @@ export default function ModalCreateTable() {
     const createNewTable = await axios
       .post("http://localhost:3001/create/table", { title: fTitle })
       .catch((err) => console.log(err));
-    console.log(createNewTable);
     dispatch(up());
     dispatch(offCreateTable());
   };

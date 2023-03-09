@@ -6,6 +6,7 @@ export const taskSlice = createSlice({
     title: "",
     description: "",
     author: "",
+    id: null,
   },
   reducers: {
     saveTitle: (state, action) => {
@@ -17,8 +18,12 @@ export const taskSlice = createSlice({
     saveAuthor: (state, action) => {
       state.author = action.payload;
     },
+    saveId: (state, action) => {
+      state.id = action.payload;
+    },
   },
 });
 
-export const { saveTitle, saveDescription, saveAuthor } = taskSlice.actions;
+export const { saveTitle, saveDescription, saveAuthor, saveId } =
+  taskSlice.actions;
 export default taskSlice.reducer;

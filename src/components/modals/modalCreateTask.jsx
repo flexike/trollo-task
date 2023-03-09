@@ -2,18 +2,23 @@ import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { offCreateTask } from "../../store/reducers/showModal";
+import { up } from "../../store/reducers/pageUpdate";
+import axios from "axios";
 import {
   saveTitle,
   saveDescription,
   saveAuthor,
+  saveId,
 } from "../../store/reducers/taskReducer";
+import { selectTable } from "../../store/reducers/deleteTables";
 
-export default function ModalCreateTask() {
+export default function ModalCreateTask(props) {
   const dispatch = useDispatch();
   const [blockSubmit, setBlockSubmit] = useState(false);
   const fTitle = useSelector((state) => state.taskCreator.title);
   const fDesc = useSelector((state) => state.taskCreator.description);
   const fAuth = useSelector((state) => state.taskCreator.author);
+  const fId = 1;
 
   const handleTitle = (e) => {
     dispatch(saveTitle(e.target.value));
@@ -36,6 +41,19 @@ export default function ModalCreateTask() {
   useEffect(() => {
     blocked();
   }, [fTitle, fDesc, fAuth]);
+
+  const handleCreateTask = async () => {
+    const createNewTask = await axios
+      .post("http://localhost:3001/create/task", {
+        title: fTitle,
+        description: fDesc,
+        author: fAuth,
+        taskTableId: fId,
+      })
+      .catch((err) => console.log(err));
+    dispatch(up());
+    dispatch(offCreateTask());
+  };
 
   return (
     <div className="h-screen flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 bg-black/75 z-10">
@@ -74,7 +92,7 @@ export default function ModalCreateTask() {
           {blockSubmit ? (
             <button
               className="bg-green-500 h-12 w-3/5 rounded-xl border-b-4 text-white active:bg-green-700"
-              type="submit"
+              onClick={handleCreateTask}
             >
               Publish
             </button>
