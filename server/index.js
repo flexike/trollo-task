@@ -1,7 +1,13 @@
 const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = express();
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get("/", async (req, res) => {
   const displayAll = await prisma.taskTable.findMany({
@@ -13,13 +19,14 @@ app.get("/", async (req, res) => {
   console.log(displayAll);
 });
 
-app.get("/create/table", async (req, res) => {
+app.post("/create/table", async (req, res) => {
+  const { title } = req.body;
   const newTable = await prisma.taskTable.create({
     data: {
-      title: "new1",
+      title: title,
     },
   });
-  res.status("200").json(newTable);
+  res.status("200").redirect("/");
   console.log(newTable);
 });
 
@@ -36,16 +43,17 @@ app.get("/create/task", async (req, res) => {
   res.status("200").json(newTask);
 });
 
-app.get("/delete/table", async (req, res) => {
+app.delete("/delete/table", async (req, res) => {
+  const { id } = req.body;
   const deleteTable = await prisma.taskTable.delete({
     where: {
-      id: 3,
+      id: id,
     },
     include: {
       tasks: true,
     },
   });
-  res.status("200").json(deleteTable);
+  res.status("200").redirect("/");
 });
 
 app.get("/delete/task", async (req, res) => {

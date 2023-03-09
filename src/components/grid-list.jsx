@@ -4,10 +4,17 @@ import { BsTrash } from "react-icons/bs";
 import TaskCard from "./taskCard";
 import { useSelector, useDispatch } from "react-redux";
 import { onCreateTask, onDeleteTable } from "../store/reducers/showModal";
+import { selectTable } from "../store/reducers/deleteTables";
 
 export default function GridList(props) {
   const dispatch = useDispatch();
   const [empty, setEmpty] = useState(true);
+
+  const handleSaveId = async () => {
+    await dispatch(selectTable(props.tableId));
+    await dispatch(onDeleteTable());
+    await console.log(props.tableId);
+  };
 
   return (
     <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
@@ -17,7 +24,7 @@ export default function GridList(props) {
           <AiOutlinePlus onClick={() => dispatch(onCreateTask())} />
         </div>
         <div className="flex items-center justify-center w-8 h-8 hover:bg-red-400 hover:rounded-full absolute top-2 right-10 hover:transition-all hover:ease-in hover:duration-250">
-          <BsTrash onClick={() => dispatch(onDeleteTable())} />
+          <BsTrash onClick={handleSaveId} />
         </div>
       </div>
       {empty ? (

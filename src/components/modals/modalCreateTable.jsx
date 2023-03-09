@@ -3,6 +3,8 @@ import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { offCreateTable } from "../../store/reducers/showModal";
 import { saveTitle } from "../../store/reducers/tableReducer";
+import { up } from "../../store/reducers/pageUpdate";
+import axios from "axios";
 
 export default function ModalCreateTable() {
   const dispatch = useDispatch();
@@ -16,6 +18,16 @@ export default function ModalCreateTable() {
   useEffect(() => {
     blocked();
   }, [fTitle]);
+
+  const handleCreateTable = async () => {
+    const createNewTable = await axios
+      .post("http://localhost:3001/create/table", { title: fTitle })
+      .catch((err) => console.log(err));
+    console.log(createNewTable);
+    dispatch(up());
+    dispatch(offCreateTable());
+  };
+
   return (
     <div className="h-screen flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 bg-black/75 z-10">
       <div className="bg-white flex flex-col py-4 px-8 h-3/6 w-5/6 md:h-2/3 md:w-2/6 rounded-md">
@@ -39,14 +51,14 @@ export default function ModalCreateTable() {
           {blockedSubmit ? (
             <button
               className="bg-green-500 h-12 w-3/5 rounded-xl border-b-4 text-white active:bg-green-700"
-              type="submit"
+              onClick={handleCreateTable}
             >
               Publish
             </button>
           ) : (
             <button
               className="bg-red-500 h-12 w-3/5 rounded-xl border-b-4 text-white active:bg-red-700"
-              type="submit"
+              disabled
             >
               Blocked
             </button>
