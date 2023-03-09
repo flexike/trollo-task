@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TaskTable {
+  id    Int     @id @default(autoincrement())
+  title String
+  tasks Tasks[]
+}
+
+model Tasks {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  author      String
+  date        DateTime   @default(now()) @db.Timestamp(6)
+  TaskTable   TaskTable? @relation(fields: [taskTableId], references: [id])
+  taskTableId Int?
+}
