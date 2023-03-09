@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { onCreateTask, onDeleteTable } from "../store/reducers/showModal";
 import { selectTable } from "../store/reducers/deleteTables";
 import { fetchData } from "../store/reducers/getTables";
+import { selectTaskTable } from "../store/reducers/taskReducer";
 
 export default function GridList(props) {
   const tableId = props.tableId;
@@ -21,11 +22,10 @@ export default function GridList(props) {
   const handleSaveId = async () => {
     await dispatch(selectTable(props.tableId));
     await dispatch(onDeleteTable());
-    await console.log(props.tableId);
   };
 
   const handleCreateTask = async () => {
-    await dispatch(selectTable(props.tableId));
+    await dispatch(selectTaskTable(tableId));
     await dispatch(onCreateTask());
   };
 
