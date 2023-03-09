@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useSelector, useDispatch } from "react-redux";
+import { offDeleteTable } from "../../store/reducers/showModal";
 
 export default function ModalDeleteTable() {
+  const dispatch = useDispatch();
   return (
     <div className="h-screen flex justify-center items-center fixed left-0 right-0 top-0 bottom-0 bg-black/75 z-10">
       <div className="bg-white flex flex-col py-4 px-8 h-3/6 w-5/6 md:h-2/3 md:w-2/6 rounded-md">
         <div className="flex flex-row items-center justify-center relative my-2">
-          <p className="text-lg md:text-2xl font-bold">Delete task list</p>
+          <p className="text-lg md:text-2xl font-bold">Delete task table?</p>
           <div className="absolute right-0 md:right-4 hover:bg-pink-400 w-6 h-6 flex justify-center items-center rounded-full">
-            <RxCross2 />
+            <RxCross2 onClick={() => dispatch(offDeleteTable())} />
           </div>
         </div>
         <div className="h-1/3 px-4 my-4 flex flex-col items-center justify-center">
