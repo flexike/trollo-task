@@ -16,7 +16,6 @@ export const createTaskSlice = createSlice({
       state.tableId = action.payload;
     },
     setTaskTitle: (state, action) => {
-      console.log(action.payload);
       state.title = action.payload;
     },
     setTaskDescr: (state, action) => {
@@ -30,6 +29,9 @@ export const createTaskSlice = createSlice({
     },
     createTaskSuccess: (state) => {
       state.id = null;
+      state.title = "";
+      state.description = "";
+      state.author = "";
       state.isLoading = false;
       state.error = null;
     },
@@ -51,13 +53,9 @@ export const {
 } = createTaskSlice.actions;
 
 export const createTask = () => async (dispatch, getState) => {
-  const tableId = await getState().createTask;
-  const title = await getState().createTask;
-  const description = await getState().createTask;
-  const author = await getState().createTask;
-  console.log(tableId, title, description, author);
+  const { tableId, title, description, author } = getState().taskCreator;
   if (!tableId || !title || !description || !author) {
-    return console.log(" ");
+    return console.log("");
   }
   try {
     dispatch(createTaskStart());

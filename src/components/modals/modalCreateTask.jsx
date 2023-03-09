@@ -56,7 +56,7 @@ export default function ModalCreateTask(props) {
           </div>
         </div>
         <div className="px-4 flex flex-col">
-          <p className="text-lg my-2">Task title {tableId}</p>
+          <p className="text-lg my-2">Task title</p>
           <input
             type="text"
             className="w-full bg-[#f2f2f2] rounded-md p-2 border-b-4 focus:outline-none"

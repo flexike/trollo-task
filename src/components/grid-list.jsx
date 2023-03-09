@@ -22,13 +22,11 @@ export default function GridList(props) {
   const handleSaveId = async () => {
     await dispatch(selectTable(props.tableId));
     await dispatch(onDeleteTable());
-    await console.log(props.tableId);
   };
 
   const handleCreateTask = async () => {
     await dispatch(selectTaskTable(tableId));
     await dispatch(onCreateTask());
-    await console.log(tableId);
   };
 
   return (
