@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { onDeleteTask } from "../store/reducers/showModal";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { selectTask } from "../store/reducers/deleteTask";
+import { useDrag } from "react-dnd";
 const dayjs = require("dayjs");
 dayjs.extend(relativeTime);
 
@@ -16,8 +17,22 @@ export default function TaskCard(props) {
     dispatch(onDeleteTask());
   };
 
+  const [{ isDragging }, dragRef] = useDrag({
+    item: { taskId, type: "task" },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   return (
-    <div className="bg-gray-200 m-4 p-2 rounded-md border-b-2 border-pink-300 px-4 relative">
+    <div
+      ref={dragRef}
+      className="bg-gray-200 m-4 p-2 rounded-md border-b-2 border-pink-300 px-4 relative"
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        cursor: "move",
+      }}
+    >
       <div className="block">
         <div className="px-1 mb-1 mr-2 text-md md:text-lg font-bold">
           {props.title}

@@ -8,13 +8,14 @@ import { selectTable } from "../store/reducers/deleteTables";
 import { fetchData } from "../store/reducers/getTables";
 import { selectTaskTable } from "../store/reducers/taskReducer";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
+import { up } from "../store/reducers/pageUpdate";
+import { useDrop } from "react-dnd";
 
-export default function GridList(props) {
-  const [isDescending, setIsDescending] = useState(false);
-  const [tasks, setTasks] = useState(props.tasks);
-  const tableId = props.tableId;
-
+export default function GridList(props, { onDrop }) {
   const dispatch = useDispatch();
+  const [isDescending, setIsDescending] = useState(false);
+  const tasks = props.tasks;
+  const tableId = props.tableId;
 
   const handleSaveId = async () => {
     await dispatch(selectTable(props.tableId));
@@ -26,8 +27,21 @@ export default function GridList(props) {
     await dispatch(onCreateTask());
   };
 
+  useEffect(() => {}, [tasks]);
+
+  const [{ isOver }, dropRef] = useDrop({
+    accept: "task",
+    drop: (item) => onDrop(item),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  });
+
   return (
-    <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
+    <div
+      className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4"
+      ref={dropRef}
+    >
       <div className="flex flex-row px-2">
         <p className="text-xl mr-12 md:text-2xl ">{props.title}</p>
         <div className="flex items-center justify-center w-8 h-8 hover:bg-pink-300 hover:rounded-full absolute right-2 hover:transition-all hover:ease-in hover:duration-250">
@@ -38,28 +52,26 @@ export default function GridList(props) {
             <TiArrowSortedUp
               onClick={() => {
                 setIsDescending(false);
-                setTasks(
-                  props.tasks
-                    .slice()
-                    .sort(
-                      (a, b) =>
-                        new Date(a.date).getTime() - new Date(b.date).getTime()
-                    )
-                );
+                tasks
+                  .slice()
+                  .sort(
+                    (a, b) =>
+                      new Date(a.date).getTime() - new Date(b.date).getTime()
+                  );
+                dispatch(up());
               }}
             />
           ) : (
             <TiArrowSortedDown
               onClick={() => {
                 setIsDescending(true);
-                setTasks(
-                  props.tasks
-                    .slice()
-                    .sort(
-                      (a, b) =>
-                        new Date(b.date).getTime() - new Date(a.date).getTime()
-                    )
-                );
+                tasks
+                  .slice()
+                  .sort(
+                    (a, b) =>
+                      new Date(b.date).getTime() - new Date(a.date).getTime()
+                  );
+                dispatch(up());
               }}
             />
           )}
