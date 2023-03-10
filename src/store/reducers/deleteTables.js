@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { REACT_APP_API_URL } from "../../utils";
 
 export const deleteTableSlice = createSlice({
   name: "deleteTable",
@@ -41,7 +42,7 @@ export const deleteTable = () => async (dispatch, getState) => {
   }
   try {
     dispatch(deleteTableStart());
-    await axios.delete(`http://localhost:3001/delete/table`, { data: { id } });
+    await axios.delete(`${REACT_APP_API_URL}/delete/table`, { data: { id } });
     dispatch(deleteTableSuccess());
   } catch (error) {
     dispatch(deleteTableFailure(error.message));
