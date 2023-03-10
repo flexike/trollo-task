@@ -11,15 +11,10 @@ import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 
 export default function GridList(props) {
   const [isDescending, setIsDescending] = useState(false);
+  const [tasks, setTasks] = useState(props.tasks);
   const tableId = props.tableId;
-  const tasks = props.tasks;
 
   const dispatch = useDispatch();
-  const noData = useSelector((state) => state.getAll.all);
-  useEffect(() => {
-    dispatch(fetchData());
-  }, []);
-  if (!noData) return "loading";
 
   const handleSaveId = async () => {
     await dispatch(selectTable(props.tableId));
@@ -31,8 +26,6 @@ export default function GridList(props) {
     await dispatch(onCreateTask());
   };
 
-  console.log(tasks, "test");
-
   return (
     <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
       <div className="flex flex-row px-2">
@@ -42,15 +35,31 @@ export default function GridList(props) {
         </div>
         <div className="flex items-center justify-center w-8 h-8 hover:bg-blue-300 hover:rounded-full absolute top-2 right-11 hover:transition-all hover:ease-in hover:duration-250">
           {isDescending ? (
-            <TiArrowSortedDown
-              onClick={() => {
-                setIsDescending(true);
-              }}
-            />
-          ) : (
             <TiArrowSortedUp
               onClick={() => {
                 setIsDescending(false);
+                setTasks(
+                  props.tasks
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        new Date(a.date).getTime() - new Date(b.date).getTime()
+                    )
+                );
+              }}
+            />
+          ) : (
+            <TiArrowSortedDown
+              onClick={() => {
+                setIsDescending(true);
+                setTasks(
+                  props.tasks
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        new Date(b.date).getTime() - new Date(a.date).getTime()
+                    )
+                );
               }}
             />
           )}
