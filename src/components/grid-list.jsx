@@ -55,21 +55,35 @@ export default function GridList(props) {
     setState({ quotes });
   }
 
-  const QuoteList = React.memo(function QuoteList({ tasksList }) {
-    return tasksList.map((task, index) => (
-      <TaskCard
-        index={index}
-        title={task.title}
-        descr={task.description}
-        auth={task.author}
-        posted={task.date}
-        id={task.id}
-        key={task.id}
-      />
-    ));
-  });
+  // const QuoteList = tasksFrProps.map((task, index) => (
+  //   <TaskCard
+  //     index={index}
+  //     title={task.title}
+  //     descr={task.description}
+  //     auth={task.author}
+  //     posted={task.date}
+  //     id={task.id}
+  //     key={task.id}
+  //   />
+  // ));
 
-  console.log(state);
+  const MemoizedTaskCards = React.memo(
+    function MemoizedTaskCards({ taskList }) {
+      return taskList.map((task, index) => (
+        <TaskCard
+          index={index}
+          title={task.title}
+          descr={task.description}
+          auth={task.author}
+          posted={task.date}
+          id={task.id}
+          key={task.id}
+        />
+      ));
+    }
+    // [tasksFrProps]
+  );
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
@@ -121,7 +135,17 @@ export default function GridList(props) {
           <Droppable droppableId="list">
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                <QuoteList tasksList={state.quotes} />
+                {tasksFrProps.map((task, index) => (
+                  <TaskCard
+                    index={index}
+                    title={task.title}
+                    descr={task.description}
+                    auth={task.author}
+                    posted={task.date}
+                    id={task.id}
+                    key={task.id}
+                  />
+                ))}
                 {provided.placeholder}
               </div>
             )}

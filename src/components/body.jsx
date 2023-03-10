@@ -33,6 +33,7 @@ export default function Body() {
 
   if (!noData) return "loading";
 
+  // console.log(noData, "no data");
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
