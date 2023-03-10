@@ -9,9 +9,8 @@ import { fetchData } from "../store/reducers/getTables";
 import { selectTaskTable } from "../store/reducers/taskReducer";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 import { up } from "../store/reducers/pageUpdate";
-import { useDrop } from "react-dnd";
 
-export default function GridList(props, { onDrop }) {
+export default function GridList(props) {
   const dispatch = useDispatch();
   const [isDescending, setIsDescending] = useState(false);
   const tasks = props.tasks;
@@ -29,19 +28,8 @@ export default function GridList(props, { onDrop }) {
 
   useEffect(() => {}, [tasks]);
 
-  const [{ isOver }, dropRef] = useDrop({
-    accept: "task",
-    drop: (item) => onDrop(item),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
-
   return (
-    <div
-      className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4"
-      ref={dropRef}
-    >
+    <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
       <div className="flex flex-row px-2">
         <p className="text-xl mr-12 md:text-2xl ">{props.title}</p>
         <div className="flex items-center justify-center w-8 h-8 hover:bg-pink-300 hover:rounded-full absolute right-2 hover:transition-all hover:ease-in hover:duration-250">

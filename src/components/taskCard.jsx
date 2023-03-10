@@ -17,22 +17,8 @@ export default function TaskCard(props) {
     dispatch(onDeleteTask());
   };
 
-  const [{ isDragging }, dragRef] = useDrag({
-    item: { taskId, type: "task" },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
   return (
-    <div
-      ref={dragRef}
-      className="bg-gray-200 m-4 p-2 rounded-md border-b-2 border-pink-300 px-4 relative"
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        cursor: "move",
-      }}
-    >
+    <div className="bg-gray-200 m-4 p-2 rounded-md border-b-2 border-pink-300 px-4 relative">
       <div className="block">
         <div className="px-1 mb-1 mr-2 text-md md:text-lg font-bold">
           {props.title}
