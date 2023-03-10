@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./header";
 import GridList from "./grid-list";
 import TableCreator from "./tablecreator";
@@ -29,10 +29,11 @@ export default function Body() {
 
   useEffect(() => {
     dispatch(fetchData());
-  }, [pageUpdaterValue]);
+  }, [dispatch, pageUpdaterValue]);
 
   if (!noData) return "loading";
 
+  // console.log(noData, "no data");
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
