@@ -6,6 +6,7 @@ import { saveTitle, deleteTitle } from "../../store/reducers/tableReducer";
 import { selectTaskTable } from "../../store/reducers/taskReducer";
 import { up } from "../../store/reducers/pageUpdate";
 import axios from "axios";
+import { REACT_APP_API_URL } from "../../utils/index";
 
 export default function ModalCreateTable() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function ModalCreateTable() {
 
   const handleCreateTable = async () => {
     const createNewTable = await axios
-      .post("http://localhost:3001/create/table", { title: fTitle })
+      .post(`${REACT_APP_API_URL}/create/table`, { title: fTitle })
       .catch((err) => console.log(err));
     dispatch(deleteTitle());
     dispatch(up());

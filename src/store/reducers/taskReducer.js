@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { REACT_APP_API_URL } from "../../utils";
 
 export const createTaskSlice = createSlice({
   name: "createTask",
@@ -59,7 +60,7 @@ export const createTask = () => async (dispatch, getState) => {
   }
   try {
     dispatch(createTaskStart());
-    await axios.post("http://localhost:3001/create/task", {
+    await axios.post(`${REACT_APP_API_URL}/create/task`, {
       title,
       description,
       author,

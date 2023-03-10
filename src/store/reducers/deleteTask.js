@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { REACT_APP_API_URL } from "../../utils";
 
 export const deleteTaskSlice = createSlice({
   name: "deleteTask",
@@ -41,7 +42,7 @@ export const deleteTask = () => async (dispatch, getState) => {
   }
   try {
     dispatch(deleteTaskStart());
-    await axios.delete(`http://localhost:3001/delete/task`, { data: { id } });
+    await axios.delete(`${REACT_APP_API_URL}/delete/task`, { data: { id } });
     dispatch(deleteTaskSuccess());
   } catch (error) {
     dispatch(deleteTaskFailure(error.message));

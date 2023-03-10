@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { REACT_APP_API_URL } from "../../utils";
 import axios from "axios";
 
 export const getAllSlice = createSlice({
@@ -30,7 +31,7 @@ export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } =
 export const fetchData = () => async (dispatch) => {
   try {
     dispatch(fetchDataStart());
-    const { data } = await axios.get("http://localhost:3001/");
+    const { data } = await axios.get(`${REACT_APP_API_URL}`);
     dispatch(fetchDataSuccess(data));
   } catch (error) {
     dispatch(fetchDataFailure(error.message));
