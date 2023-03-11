@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
+
 import { offCreateTable } from "../../store/reducers/showModal";
 import { saveTitle, deleteTitle } from "../../store/reducers/tableReducer";
-import { selectTaskTable } from "../../store/reducers/taskReducer";
 import { up } from "../../store/reducers/pageUpdate";
-import axios from "axios";
 import { REACT_APP_API_URL } from "../../utils";
 
 export default function ModalCreateTable() {
@@ -14,7 +14,7 @@ export default function ModalCreateTable() {
   const [blockedSubmit, setBlockedSubmit] = useState(false);
 
   const blocked = () => {
-    fTitle === "" ? setBlockedSubmit(false) : setBlockedSubmit(true);
+    !fTitle ? setBlockedSubmit(false) : setBlockedSubmit(true);
   };
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function ModalCreateTable() {
   }, [fTitle]);
 
   const handleCreateTable = async () => {
-    const createNewTable = await axios
+    await axios
       .post(`${REACT_APP_API_URL}/create/table`, { title: fTitle })
       .catch((err) => console.log(err));
     dispatch(deleteTitle());

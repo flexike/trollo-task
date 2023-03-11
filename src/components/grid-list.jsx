@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
-import TaskCard from "./taskCard";
 import { useDispatch } from "react-redux";
+import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
+
+import TaskCard from "./taskCard";
+
 import { onCreateTask, onDeleteTable } from "../store/reducers/showModal";
 import { selectTable } from "../store/reducers/deleteTables";
 import { selectTaskTable } from "../store/reducers/taskReducer";
-import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 import { up } from "../store/reducers/pageUpdate";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-export default function GridList(props) {
+export default function GridList({ tasks, tableId, title }) {
   const dispatch = useDispatch();
-  const tasksFrProps = props.tasks;
   const [isDescending, setIsDescending] = useState(false);
-  const [state, setState] = useState({ quotes: tasksFrProps });
-  const tableId = props.tableId;
 
   const handleSaveId = async () => {
-    await dispatch(selectTable(props.tableId));
+    await dispatch(selectTable(tableId));
     await dispatch(onDeleteTable());
   };
 
@@ -27,68 +25,13 @@ export default function GridList(props) {
     await dispatch(onCreateTask());
   };
 
-  useEffect(() => {}, [tasksFrProps]);
-
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-  };
-
-  function onDragEnd(result) {
-    if (!result.destination) {
-      return;
-    }
-
-    if (result.destination.index === result.source.index) {
-      return;
-    }
-
-    const quotes = reorder(
-      state.quotes,
-      result.source.index,
-      result.destination.index
-    );
-
-    setState({ quotes });
-  }
-
-  // const QuoteList = tasksFrProps.map((task, index) => (
-  //   <TaskCard
-  //     index={index}
-  //     title={task.title}
-  //     descr={task.description}
-  //     auth={task.author}
-  //     posted={task.date}
-  //     id={task.id}
-  //     key={task.id}
-  //   />
-  // ));
-
-  const MemoizedTaskCards = React.memo(
-    function MemoizedTaskCards({ taskList }) {
-      return taskList.map((task, index) => (
-        <TaskCard
-          index={index}
-          title={task.title}
-          descr={task.description}
-          auth={task.author}
-          posted={task.date}
-          id={task.id}
-          key={task.id}
-        />
-      ));
-    }
-    // [tasksFrProps]
-  );
+  useEffect(() => {}, [tasks]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <>
       <div className="bg-white flex flex-col rounded-md border-2 mb-8 p-2 relative border-b-4">
         <div className="flex flex-row px-2">
-          <p className="text-xl mr-12 md:text-2xl ">{props.title}</p>
+          <p className="text-xl mr-12 md:text-2xl ">{title}</p>
           <div className="flex items-center justify-center w-8 h-8 hover:bg-pink-300 hover:rounded-full absolute right-2 hover:transition-all hover:ease-in hover:duration-250">
             <AiOutlinePlus onClick={handleCreateTask} />
           </div>
@@ -97,15 +40,6 @@ export default function GridList(props) {
               <TiArrowSortedUp
                 onClick={() => {
                   setIsDescending(false);
-                  setState({
-                    quotes: tasksFrProps
-                      .slice()
-                      .sort(
-                        (a, b) =>
-                          new Date(a.date).getTime() -
-                          new Date(b.date).getTime()
-                      ),
-                  });
                   dispatch(up());
                 }}
               />
@@ -113,15 +47,6 @@ export default function GridList(props) {
               <TiArrowSortedDown
                 onClick={() => {
                   setIsDescending(true);
-                  setState({
-                    quotes: tasksFrProps
-                      .slice()
-                      .sort(
-                        (a, b) =>
-                          new Date(b.date).getTime() -
-                          new Date(a.date).getTime()
-                      ),
-                  });
                   dispatch(up());
                 }}
               />
@@ -131,29 +56,22 @@ export default function GridList(props) {
             <BsTrash onClick={handleSaveId} />
           </div>
         </div>
-        {tasksFrProps ? (
-          <Droppable droppableId="list">
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {tasksFrProps.map((task, index) => (
-                  <TaskCard
-                    index={index}
-                    title={task.title}
-                    descr={task.description}
-                    auth={task.author}
-                    posted={task.date}
-                    id={task.id}
-                    key={task.id}
-                  />
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+        {tasks ? (
+          tasks.map((task, index) => (
+            <TaskCard
+              index={index}
+              title={task.title}
+              descr={task.description}
+              auth={task.author}
+              posted={task.date}
+              id={task.id}
+              key={task.id}
+            />
+          ))
         ) : (
           <div className="m-2 p-2 rounded-sm text-xl bg-slate-200"></div>
         )}
       </div>
-    </DragDropContext>
+    </>
   );
 }

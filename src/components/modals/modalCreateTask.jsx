@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
+
 import { offCreateTask } from "../../store/reducers/showModal";
 import { up } from "../../store/reducers/pageUpdate";
 import { createTask } from "../../store/reducers/taskReducer";
@@ -16,7 +17,6 @@ export default function ModalCreateTask(props) {
   const title = useSelector((state) => state.taskCreator.title);
   const description = useSelector((state) => state.taskCreator.description);
   const author = useSelector((state) => state.taskCreator.author);
-  const tableId = useSelector((state) => state.taskCreator.tableId);
 
   const handleTitle = (e) => {
     dispatch(setTaskTitle(e.target.value));
@@ -29,7 +29,7 @@ export default function ModalCreateTask(props) {
   };
 
   const blocked = () => {
-    if (title === "" || description === "" || author === "") {
+    if (!title || !description || !author) {
       setBlockSubmit(false);
     } else {
       setBlockSubmit(true);

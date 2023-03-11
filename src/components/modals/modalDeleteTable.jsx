@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
-import { selectTable, deleteTable } from "../../store/reducers/deleteTables";
+
+import { deleteTable } from "../../store/reducers/deleteTables";
 import { offDeleteTable } from "../../store/reducers/showModal";
 import { up } from "../../store/reducers/pageUpdate";
 

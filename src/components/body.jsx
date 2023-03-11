@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import Header from "./header";
 import GridList from "./grid-list";
 import TableCreator from "./tablecreator";
@@ -6,7 +8,6 @@ import ModalCreateTable from "./modals/modalCreateTable";
 import ModalCreateTask from "./modals/modalCreateTask";
 import ModalDeleteTable from "./modals/modalDeleteTable";
 import ModalDeleteTask from "./modals/modalDeleteTask";
-import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../store/reducers/getTables";
 
 export default function Body() {
@@ -33,7 +34,6 @@ export default function Body() {
 
   if (!noData) return "loading";
 
-  // console.log(noData, "no data");
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -42,7 +42,6 @@ export default function Body() {
           {noData.map((dataTable) => {
             return (
               <GridList
-                key={dataTable.id}
                 title={dataTable.title}
                 tableId={dataTable.id}
                 tasks={dataTable.tasks}

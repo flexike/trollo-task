@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
+
 import { offDeleteTask } from "../../store/reducers/showModal";
 import { deleteTask } from "../../store/reducers/deleteTask";
 import { up } from "../../store/reducers/pageUpdate";
